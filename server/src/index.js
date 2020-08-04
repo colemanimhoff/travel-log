@@ -2,14 +2,21 @@ const cors = require('cors');
 const helmet = require('helmet');
 const express = require('express');
 const morgan = require('morgan');
+const mongoose = require('mongoose');
+require('dotenv').config();
 
 const middlewares = require('./middlewares');
 
 const app = express();
 const port = process.env.PORT || 1337;
 
+mongoose.connect(process.env.DATABASE_URL, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
+
 app.use(cors({
-  origin: 'http://localhost:3000',
+  origin: process.env.CORS_ORIGIN,
 }));
 app.use(helmet());
 app.use(morgan('common'));
